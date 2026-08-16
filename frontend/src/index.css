@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  /* Ledger shell + manifest paper */
+  --color-ink: #0B1220;
+  --color-ink-2: #111C2E;
+  --color-ink-3: #17233A;
+  --color-paper: #F5F1E8;
+  --color-paper-2: #EAE3D3;
+
+  /* Flow accents */
+  --color-amber: #E8A33D;
+  --color-amber-2: #C97F1E;
+  --color-teal: #3FA796;
+  --color-teal-2: #2C7E71;
+  --color-rust: #D6553D;
+
+  /* Text on ink */
+  --color-mist: #C7D0DE;
+  --color-slate: #8792A3;
+  --color-line: #26334A;
+
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-mist);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-amber);
+  color: var(--color-ink);
+}
+
+/* subtle ledger-grid backdrop */
+.ledger-grid {
+  background-image:
+    linear-gradient(var(--color-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: -1px -1px;
+  opacity: 0.35;
+}
+
+.font-display { font-family: var(--font-display); }
+.font-mono { font-family: var(--font-mono); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+/* focus visibility */
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+}
+
+@keyframes flow-dash {
+  to { stroke-dashoffset: -24; }
+}
+.flow-line {
+  stroke-dasharray: 4 6;
+  animation: flow-dash 1.2s linear infinite;
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise-in {
+  animation: rise-in 0.5s ease-out both;
+}

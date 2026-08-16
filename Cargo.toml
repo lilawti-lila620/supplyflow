@@ -1,0 +1,6 @@
+[workspace]
+resolver = "2"
+members = ["contracts/payment_distribution"]
+
+[workspace.dependencies]
+soroban-sdk = "21.7.4"
