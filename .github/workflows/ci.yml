@@ -38,3 +38,18 @@ jobs:
         run: npm run test
       - name: Build
         run: npm run build
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [contracts]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - name: Install Stellar CLI
+        run: cargo install --locked stellar-cli --features opt
+      - name: Deploy Contract
+        run: bash scripts/deploy.sh
