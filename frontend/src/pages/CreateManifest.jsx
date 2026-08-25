@@ -74,12 +74,25 @@ export default function CreateManifest() {
 
     setSubmitting(true);
     try {
-      const id = await createManifest({
+      const { id, hash } = await createManifest({
         buyer: address,
         label: label.trim(),
         stakeholders: stakeholders.map((s) => ({ ...s, share_bps: Number(s.share_bps) })),
       });
-      push('Manifest created and shares locked on-chain.', 'success');
+      push(
+        <span>
+          Manifest created and shares locked on-chain.{' '}
+          <a
+            href={`https://stellar.expert/explorer/testnet/tx/${hash}`}
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            View TX
+          </a>
+        </span>,
+        'success'
+      );
       track('manifest_created', { id, stakeholderCount: stakeholders.length });
       navigate(`/manifest/${id}`);
     } catch (err) {

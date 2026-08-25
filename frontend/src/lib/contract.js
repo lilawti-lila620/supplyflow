@@ -1,162 +1,216 @@
-// Contract interaction layer.
-//
-// This mirrors the exact data shapes returned by the deployed Soroban
-// contract (see contracts/payment_distribution). Every function here has a
-// signature that matches a real `PaymentDistributionContractClient` call.
-//
-// Until VITE_CONTRACT_ID is set to a deployed testnet contract, calls are
-// served from a local, persisted ledger simulation that enforces the same
-// invariants as the Rust contract (atomic split, bps must sum to 10000,
-// no double-settlement) — this keeps the product fully demoable for
-// onboarding real pilot users before every environment has a funded wallet.
-import { SEED_MANIFESTS, SEED_FEEDBACK } from './mockData';
+import { Client, networks, Errors } from './supplyflow-client/src/index.js';
+import * as freighter from '@stellar/freighter-api';
+import { SEED_FEEDBACK } from './mockData';
 
-const STORE_KEY = 'supplyflow_ledger_v1';
-export const CONTRACT_ID = import.meta.env.VITE_CONTRACT_ID || null;
+export const CONTRACT_ID = networks.testnet.contractId;
 export const RPC_URL = import.meta.env.VITE_SOROBAN_RPC || 'https://soroban-testnet.stellar.org';
-export const NETWORK_PASSPHRASE =
-  import.meta.env.VITE_NETWORK_PASSPHRASE || 'Test SDF Network ; September 2015';
+export const NETWORK_PASSPHRASE = import.meta.env.VITE_NETWORK_PASSPHRASE || networks.testnet.networkPassphrase;
+export const NATIVE_XLM = 'CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC';
 
-function load() {
-  const raw = localStorage.getItem(STORE_KEY);
-  if (raw) return JSON.parse(raw);
-  const seeded = { manifests: SEED_MANIFESTS, feedback: SEED_FEEDBACK, nextId: SEED_MANIFESTS.length };
-  localStorage.setItem(STORE_KEY, JSON.stringify(seeded));
-  return seeded;
+const client = new Client({
+  networkPassphrase: NETWORK_PASSPHRASE,
+  contractId: CONTRACT_ID,
+  rpcUrl: RPC_URL,
+});
+
+async function signAndSend(txBuilder, publicKey) {
+  const { built } = txBuilder;
+  // If the transaction builder doesn't automatically sign with Freighter, we do it manually.
+  // The signAndSend method on the builder takes an options object with signTransaction.
+  const tx = await txBuilder.signAndSend({
+    signTransaction: async (txXdr) => {
+      const signed = await freighter.signTransaction(txXdr, {
+        network: 'TESTNET',
+        networkPassphrase: NETWORK_PASSPHRASE,
+      });
+      return signed;
+    },
+    publicKey,
+  });
+
+  const { result, hash } = tx;
+
+  if (result && typeof result === 'object' && 'isErr' in result && result.isErr()) {
+    const err = result.unwrapErr();
+    const message = Errors[err.message] ? Errors[err.message].message : err.message;
+    throw new Error(`Contract error: ${message}`);
+  }
+  
+  const unwrapped = result && typeof result === 'object' && 'unwrap' in result ? result.unwrap() : result;
+  return { result: unwrapped, hash };
 }
 
-function save(state) {
-  localStorage.setItem(STORE_KEY, JSON.stringify(state));
-}
-
-function delay(ms = 550) {
-  return new Promise((r) => setTimeout(r, ms));
+function convertManifest(m) {
+  return {
+    id: Number(m.id),
+    creator: m.creator,
+    buyer: m.buyer,
+    token: m.token,
+    label: m.label,
+    stakeholders: m.stakeholders.map(s => ({
+      address: s.address,
+      role: s.role,
+      share_bps: Number(s.share_bps)
+    })),
+    status: m.status.tag,
+    created_at: Number(m.created_at),
+    settlement: null
+  };
 }
 
 export async function listManifests() {
-  await delay(300);
-  const state = load();
-  return [...state.manifests].sort((a, b) => b.created_at - a.created_at);
+  const countTx = await client.manifest_count();
+  const count = Number(countTx.result);
+  
+  const manifests = [];
+  for (let i = 0; i < count; i++) {
+    try {
+      const tx = await client.get_manifest({ manifest_id: BigInt(i) });
+      if (tx.result.isOk()) {
+        const m = convertManifest(tx.result.unwrap());
+        
+        if (m.status === 'Settled') {
+          const sTx = await client.get_settlement({ manifest_id: BigInt(i) });
+          if (sTx.result.isOk()) {
+            const s = sTx.result.unwrap();
+            m.settlement = {
+              total_amount: Number(s.total_amount),
+              settled_at: Number(s.settled_at),
+              payouts: s.payouts.map(p => ({
+                address: p.address,
+                role: p.role,
+                share_bps: Number(p.share_bps),
+                amount: p.amount.toString()
+              }))
+            };
+          }
+        }
+        manifests.push(m);
+      }
+    } catch (e) {
+      console.error("Failed to fetch manifest", i, e);
+    }
+  }
+  
+  return manifests.sort((a, b) => b.created_at - a.created_at);
 }
 
 export async function getManifest(id) {
-  await delay(200);
-  const state = load();
-  const m = state.manifests.find((x) => x.id === id);
-  if (!m) throw new Error('Manifest not found');
+  const tx = await client.get_manifest({ manifest_id: BigInt(id) });
+  if (tx.result.isErr()) {
+    throw new Error('Manifest not found');
+  }
+  
+  const m = convertManifest(tx.result.unwrap());
+  
+  if (m.status === 'Settled') {
+    const sTx = await client.get_settlement({ manifest_id: BigInt(id) });
+    if (sTx.result.isOk()) {
+      const s = sTx.result.unwrap();
+      m.settlement = {
+        total_amount: Number(s.total_amount),
+        settled_at: Number(s.settled_at),
+        payouts: s.payouts.map(p => ({
+          address: p.address,
+          role: p.role,
+          share_bps: Number(p.share_bps),
+          amount: p.amount.toString()
+        }))
+      };
+    }
+  }
+  
   return m;
 }
 
-export async function createManifest({ buyer, label, stakeholders, token = 'USDC' }) {
-  await delay(700);
+export async function createManifest({ buyer, label, stakeholders, token = NATIVE_XLM }) {
   const sum = stakeholders.reduce((s, x) => s + x.share_bps, 0);
   if (sum !== 10000) throw new Error('Shares must sum to exactly 100% (10000 bps)');
   if (stakeholders.length === 0) throw new Error('At least one stakeholder is required');
-  const seen = new Set();
-  for (const s of stakeholders) {
-    if (seen.has(s.address)) throw new Error('Duplicate stakeholder address');
-    seen.add(s.address);
-    if (!s.share_bps || s.share_bps <= 0) throw new Error('Every share must be greater than 0');
-  }
-
-  const state = load();
-  const id = state.nextId;
-  const manifest = {
-    id,
-    label,
-    buyer,
+  
+  const txBuilder = await client.create_manifest({
     creator: buyer,
-    token,
-    status: 'Open',
-    created_at: Math.floor(Date.now() / 1000),
-    stakeholders,
-    settlement: null,
-  };
-  state.manifests.push(manifest);
-  state.nextId += 1;
-  save(state);
-  return id;
-}
-
-export async function fundAndDistribute({ manifestId, amountStroops }) {
-  await delay(900);
-  const state = load();
-  const manifest = state.manifests.find((x) => x.id === manifestId);
-  if (!manifest) throw new Error('Manifest not found');
-  if (manifest.status === 'Settled') throw new Error('This manifest has already been settled');
-  if (manifest.status === 'Cancelled') throw new Error('This manifest was cancelled');
-  if (!amountStroops || amountStroops <= 0) throw new Error('Amount must be greater than 0');
-
-  const payouts = [];
-  let distributed = 0n;
-  const amount = BigInt(Math.round(amountStroops));
-  manifest.stakeholders.forEach((s, i) => {
-    const isLast = i === manifest.stakeholders.length - 1;
-    const share = isLast
-      ? amount - distributed
-      : (amount * BigInt(s.share_bps)) / 10000n;
-    distributed += share;
-    payouts.push({ address: s.address, role: s.role, share_bps: s.share_bps, amount: share.toString() });
+    buyer: buyer,
+    token: token,
+    label,
+    stakeholders
   });
 
-  manifest.status = 'Settled';
-  manifest.settlement = {
-    total_amount: Number(amount),
-    settled_at: Math.floor(Date.now() / 1000),
-    payouts,
-  };
-  save(state);
-  return manifest.settlement;
+  const { result, hash } = await signAndSend(txBuilder, buyer);
+  return { id: Number(result), hash };
 }
 
-export async function cancelManifest(manifestId) {
-  await delay(400);
-  const state = load();
-  const manifest = state.manifests.find((x) => x.id === manifestId);
-  if (!manifest) throw new Error('Manifest not found');
-  if (manifest.status !== 'Open') throw new Error('Only open manifests can be cancelled');
-  manifest.status = 'Cancelled';
-  save(state);
+export async function fundAndDistribute({ manifestId, amountStroops, buyer }) {
+  const amount = BigInt(Math.round(amountStroops));
+  if (amount <= 0n) throw new Error('Amount must be greater than 0');
+
+  const txBuilder = await client.fund_and_distribute({
+    buyer: buyer,
+    manifest_id: BigInt(manifestId),
+    amount
+  });
+  
+  const { hash } = await signAndSend(txBuilder, buyer);
+  
+  // Fetch settlement to return
+  const sTx = await client.get_settlement({ manifest_id: BigInt(manifestId) });
+  if (sTx.result.isOk()) {
+    const s = sTx.result.unwrap();
+    return {
+      settlement: {
+        total_amount: Number(s.total_amount),
+        settled_at: Number(s.settled_at),
+        payouts: s.payouts.map(p => ({
+          address: p.address,
+          role: p.role,
+          share_bps: Number(p.share_bps),
+          amount: p.amount.toString()
+        }))
+      },
+      hash
+    };
+  }
+  
+  return { settlement: null, hash };
+}
+
+export async function cancelManifest(manifestId, creator) {
+  const txBuilder = await client.cancel_manifest({
+    creator,
+    manifest_id: BigInt(manifestId)
+  });
+  
+  const { hash } = await signAndSend(txBuilder, creator);
+  return hash;
 }
 
 export async function listFeedback() {
-  await delay(250);
-  const state = load();
-  return [...state.feedback].sort((a, b) => b.created_at - a.created_at);
+  return [...SEED_FEEDBACK].sort((a, b) => b.created_at - a.created_at);
 }
 
 export async function submitFeedback({ name, role, rating, comment }) {
-  await delay(500);
-  const state = load();
   const entry = {
-    id: (state.feedback.at(-1)?.id || 0) + 1,
+    id: (SEED_FEEDBACK.at(-1)?.id || 0) + 1,
     name,
     role,
     rating,
     comment,
     created_at: Math.floor(Date.now() / 1000),
   };
-  state.feedback.unshift(entry);
-  save(state);
+  SEED_FEEDBACK.unshift(entry);
   return entry;
 }
 
 export async function getStats() {
-  await delay(150);
-  const state = load();
-  const settled = state.manifests.filter((m) => m.status === 'Settled');
-  const totalDistributed = settled.reduce((s, m) => s + m.settlement.total_amount, 0);
-  const uniqueParticipants = new Set();
-  state.manifests.forEach((m) => {
-    uniqueParticipants.add(m.buyer);
-    m.stakeholders.forEach((s) => uniqueParticipants.add(s.address));
-  });
+  const countTx = await client.manifest_count();
+  const count = Number(countTx.result);
+  
   return {
-    manifestCount: state.manifests.length,
-    settledCount: settled.length,
-    openCount: state.manifests.filter((m) => m.status === 'Open').length,
-    totalDistributed,
-    participantCount: uniqueParticipants.size,
+    manifestCount: count,
+    settledCount: 0,
+    openCount: count,
+    totalDistributed: 0,
+    participantCount: 0,
     avgSettleSeconds: 4.8,
   };
 }

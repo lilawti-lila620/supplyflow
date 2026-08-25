@@ -59,8 +59,21 @@ export default function ManifestDetail() {
     if (!stroops || stroops <= 0) return push('Enter an amount greater than 0.', 'error');
     setBusy(true);
     try {
-      await fundAndDistribute({ manifestId: Number(id), amountStroops: stroops });
-      push('Payment distributed atomically to every stakeholder.', 'success');
+      const { settlement, hash } = await fundAndDistribute({ manifestId: Number(id), amountStroops: stroops, buyer: address });
+      push(
+        <span>
+          Payment distributed atomically to every stakeholder.{' '}
+          <a
+            href={`https://stellar.expert/explorer/testnet/tx/${hash}`}
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            View TX
+          </a>
+        </span>,
+        'success'
+      );
       track('manifest_funded', { id: Number(id), amountStroops: stroops });
       await load();
     } catch (err) {
@@ -73,8 +86,21 @@ export default function ManifestDetail() {
   async function handleCancel() {
     setBusy(true);
     try {
-      await cancelManifest(Number(id));
-      push('Manifest cancelled.', 'info');
+      const hash = await cancelManifest(Number(id), address);
+      push(
+        <span>
+          Manifest cancelled.{' '}
+          <a
+            href={`https://stellar.expert/explorer/testnet/tx/${hash}`}
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            View TX
+          </a>
+        </span>,
+        'info'
+      );
       await load();
     } catch (err) {
       push(err.message || 'Could not cancel', 'error');

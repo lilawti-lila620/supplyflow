@@ -5,6 +5,7 @@
 import * as freighter from '@stellar/freighter-api';
 
 const DEMO_KEY = 'supplyflow_demo_wallet';
+const FREIGHTER_CONNECTED_KEY = 'supplyflow_freighter_connected';
 
 function randomStellarLikeAddress() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
@@ -37,6 +38,7 @@ export async function connectWallet() {
     const access = await freighter.requestAccess();
     if (access?.error) throw new Error(access.error);
     const { address } = await freighter.getAddress();
+    localStorage.setItem(FREIGHTER_CONNECTED_KEY, 'true');
     return { address, mode: 'freighter' };
   }
   // Demo mode: deterministic per-browser address so returning users keep
@@ -47,6 +49,7 @@ export async function connectWallet() {
 
 export function disconnectWallet() {
   localStorage.removeItem(DEMO_KEY);
+  localStorage.removeItem(FREIGHTER_CONNECTED_KEY);
 }
 
 export async function getNetwork() {
@@ -57,3 +60,21 @@ export async function getNetwork() {
     return 'TESTNET (demo)';
   }
 }
+
+export function wasFreighterConnected() {
+  return localStorage.getItem(FREIGHTER_CONNECTED_KEY) === 'true';
+}
+
+export async function getBalance(address) {
+  try {
+    const res = await fetch(`https://horizon-testnet.stellar.org/accounts/${address}`);
+    if (!res.ok) return '0.00';
+    const data = await res.json();
+    const native = data.balances.find((b) => b.asset_type === 'native');
+    if (!native) return '0.00';
+    return Number(native.balance).toFixed(2);
+  } catch {
+    return '0.00';
+  }
+}
+

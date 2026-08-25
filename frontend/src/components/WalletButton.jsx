@@ -3,7 +3,7 @@ import { useWallet } from '../lib/WalletContext';
 import { formatAddress } from '../lib/format';
 
 export default function WalletButton({ full = false }) {
-  const { address, mode, connecting, connect, disconnect } = useWallet();
+  const { address, mode, connecting, connect, disconnect, balance } = useWallet();
 
   if (address) {
     return (
@@ -13,6 +13,8 @@ export default function WalletButton({ full = false }) {
         title="Disconnect wallet"
       >
         <span className={`h-2 w-2 rounded-full ${mode === 'freighter' ? 'bg-teal' : 'bg-amber'}`} />
+        <span>{balance} XLM</span>
+        <span className="text-mist-2 opacity-60 px-1">|</span>
         {formatAddress(address)}
         <LogOut size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
       </button>
