@@ -16,7 +16,7 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
       - name: Install Stellar CLI
-        run: cargo install --locked stellar-cli --features opt
+        uses: stellar/actions/setup-stellar-cli@main
       - name: Build Contracts
         run: stellar contract build
       - name: Run Contract Tests
@@ -50,6 +50,6 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
       - name: Install Stellar CLI
-        run: cargo install --locked stellar-cli --features opt
+        uses: stellar/actions/setup-stellar-cli@main
       - name: Deploy Contract
         run: bash scripts/deploy.sh
