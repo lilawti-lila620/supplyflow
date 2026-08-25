@@ -11,14 +11,10 @@ if ! stellar keys ls | grep -q "deployer"; then
 fi
 
 DEPLOYER="deployer"
-WASM_PATH="target/wasm32-unknown-unknown/release/supplyflow_payment_distribution.wasm"
-
-echo "==> Optimizing wasm..."
-stellar contract optimize --wasm "$WASM_PATH"
-OPT_WASM="${WASM_PATH%.wasm}.optimized.wasm"
+WASM_PATH="target/wasm32v1-none/release/supplyflow_payment_distribution.wasm"
 
 echo "==> Deploying Payment Distribution Contract..."
-CONTRACT_ID=$(stellar contract deploy --wasm "$OPT_WASM" --source $DEPLOYER --network testnet)
+CONTRACT_ID=$(stellar contract deploy --wasm "$WASM_PATH" --source $DEPLOYER --network testnet)
 echo "Payment Distribution Contract deployed at: $CONTRACT_ID"
 
 echo "==> Initializing contract..."
