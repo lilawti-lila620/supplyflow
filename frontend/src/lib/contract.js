@@ -95,7 +95,7 @@ async function invokeContract(publicKey, method, args) {
     freighterResponse?.signedTxXdr ?? freighterResponse;
 
   // 6. Rebuild from signed XDR
-  const signedTx = TransactionBuilder.fromXDR(signedXdr, NETWORK_PASSPHRASE);
+  const signedTx = TransactionBuilder.fromXdr(signedXdr, NETWORK_PASSPHRASE);
 
   // 7. Submit
   const sendResult = await server.sendTransaction(signedTx);
