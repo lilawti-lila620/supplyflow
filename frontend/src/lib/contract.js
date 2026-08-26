@@ -86,7 +86,7 @@ async function invokeContract(publicKey, method, args) {
   tx = assembleTransaction(tx, simResult).build();
 
   // 5. Sign with Freighter
-  const freighterResponse = await freighter.signTransaction(tx.toXDR(), {
+  const freighterResponse = await freighter.signTransaction(tx.toXdr(), {
     network: 'TESTNET',
     networkPassphrase: NETWORK_PASSPHRASE,
   });
