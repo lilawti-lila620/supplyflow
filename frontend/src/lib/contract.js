@@ -8,11 +8,12 @@ import {
   scValToNative,
 } from '@stellar/stellar-sdk';
 import * as SorobanRpc from '@stellar/stellar-sdk/rpc';
-import {
-  isSimulationError,
-  assembleTransaction,
-  Server as SorobanServer,
-} from '@stellar/stellar-sdk/rpc';
+
+// isSimulationError is not exported in all stellar-sdk ESM builds — manual impl
+const isSimulationError = (r) => typeof r === 'object' && r !== null && 'error' in r;
+const assembleTransaction = SorobanRpc.assembleTransaction;
+const SorobanServer = SorobanRpc.Server;
+
 import * as freighter from '@stellar/freighter-api';
 import { Client, networks } from './supplyflow-client/src/index.js';
 import { SEED_FEEDBACK } from './mockData';
