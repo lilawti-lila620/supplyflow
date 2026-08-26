@@ -13,7 +13,7 @@ import {
   BarChart,
   Bar,
 } from 'recharts';
-import { Activity, Clock3 } from 'lucide-react';
+import { Activity, Clock3, Download } from 'lucide-react';
 import { listManifests, getStats } from '../lib/contract';
 import { getEvents } from '../lib/analytics';
 import StatCard from '../components/StatCard';
@@ -85,10 +85,31 @@ export default function Analytics() {
 
   if (!manifests || !stats) return <LoadingState label="Aggregating on-chain settlement data…" />;
 
+  function exportCSV() {
+    if (!manifests) return;
+    const header = "ID,Label,Status,Total Amount (XLM),Created At\n";
+    const rows = manifests.map(m => {
+      const amount = m.settlement ? m.settlement.total_amount / 10_000_000 : 0;
+      return `${m.id},"${m.label}",${m.status},${amount},${new Date(m.created_at * 1000).toLocaleDateString()}`;
+    }).join("\n");
+    const blob = new Blob([header + rows], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'manifests_export.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <div className="mx-auto max-w-7xl px-5 md:px-8 py-10">
       <span className="text-xs font-mono uppercase tracking-widest text-amber">Analytics</span>
-      <h1 className="mt-2 font-display text-2xl md:text-3xl font-semibold text-paper">Distribution performance</h1>
+      <div className="mt-2 flex items-center justify-between">
+        <h1 className="font-display text-2xl md:text-3xl font-semibold text-paper">Distribution performance</h1>
+        <button onClick={exportCSV} className="flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-xs text-slate hover:text-mist">
+          <Download size={13} /> Export CSV
+        </button>
+      </div>
       <p className="mt-2 text-sm text-slate max-w-xl">
         Aggregated directly from on-chain settlement events — every number below traces back to a manifest a
         participant can independently verify.
