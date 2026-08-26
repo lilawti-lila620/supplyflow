@@ -6,7 +6,6 @@ SupplyFlow replaces manual, centrally-controlled revenue splitting with a Soroba
   
   [![Live Platform](https://img.shields.io/badge/🔴_Live_Platform-supplyflow--delta.vercel.app-1E40AF?style=for-the-badge)](https://supplyflow-delta.vercel.app/)
   [![Demo Video](https://img.shields.io/badge/▶️_Demo_Video-Watch_Now-FF0000?style=for-the-badge)](#)
-  [![Pitch Deck](https://img.shields.io/badge/📊_Pitch_Deck-View_Presentation-047857?style=for-the-badge)](#)
   
 </div>
 
