@@ -7,7 +7,17 @@ export const RPC_URL = import.meta.env.VITE_SOROBAN_RPC || 'https://soroban-test
 export const NETWORK_PASSPHRASE = import.meta.env.VITE_NETWORK_PASSPHRASE || networks.testnet.networkPassphrase;
 export const NATIVE_XLM = 'CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC';
 
-const client = new Client({
+function getClient(publicKey) {
+  return new Client({
+    networkPassphrase: NETWORK_PASSPHRASE,
+    contractId: CONTRACT_ID,
+    rpcUrl: RPC_URL,
+    publicKey: publicKey || undefined,
+  });
+}
+
+// Read-only client for simulations (no signing needed)
+const readClient = new Client({
   networkPassphrase: NETWORK_PASSPHRASE,
   contractId: CONTRACT_ID,
   rpcUrl: RPC_URL,
@@ -59,18 +69,18 @@ function convertManifest(m) {
 }
 
 export async function listManifests() {
-  const countTx = await client.manifest_count();
+  const countTx = await readClient.manifest_count();
   const count = Number(countTx.result);
   
   const manifests = [];
   for (let i = 0; i < count; i++) {
     try {
-      const tx = await client.get_manifest({ manifest_id: BigInt(i) });
+      const tx = await readClient.get_manifest({ manifest_id: BigInt(i) });
       if (tx.result.isOk()) {
         const m = convertManifest(tx.result.unwrap());
         
         if (m.status === 'Settled') {
-          const sTx = await client.get_settlement({ manifest_id: BigInt(i) });
+          const sTx = await readClient.get_settlement({ manifest_id: BigInt(i) });
           if (sTx.result.isOk()) {
             const s = sTx.result.unwrap();
             m.settlement = {
@@ -96,7 +106,7 @@ export async function listManifests() {
 }
 
 export async function getManifest(id) {
-  const tx = await client.get_manifest({ manifest_id: BigInt(id) });
+  const tx = await readClient.get_manifest({ manifest_id: BigInt(id) });
   if (tx.result.isErr()) {
     throw new Error('Manifest not found');
   }
@@ -104,7 +114,7 @@ export async function getManifest(id) {
   const m = convertManifest(tx.result.unwrap());
   
   if (m.status === 'Settled') {
-    const sTx = await client.get_settlement({ manifest_id: BigInt(id) });
+    const sTx = await readClient.get_settlement({ manifest_id: BigInt(id) });
     if (sTx.result.isOk()) {
       const s = sTx.result.unwrap();
       m.settlement = {
@@ -128,6 +138,8 @@ export async function createManifest({ buyer, label, stakeholders, token = NATIV
   if (sum !== 10000) throw new Error('Shares must sum to exactly 100% (10000 bps)');
   if (stakeholders.length === 0) throw new Error('At least one stakeholder is required');
   
+  // Create a client with the caller's publicKey so the SDK can build the transaction correctly
+  const client = getClient(buyer);
   const txBuilder = await client.create_manifest({
     creator: buyer,
     buyer: buyer,
@@ -144,6 +156,8 @@ export async function fundAndDistribute({ manifestId, amountStroops, buyer }) {
   const amount = BigInt(Math.round(amountStroops));
   if (amount <= 0n) throw new Error('Amount must be greater than 0');
 
+  // Create a client with the caller's publicKey so the SDK can build the transaction correctly
+  const client = getClient(buyer);
   const txBuilder = await client.fund_and_distribute({
     buyer: buyer,
     manifest_id: BigInt(manifestId),
@@ -153,7 +167,7 @@ export async function fundAndDistribute({ manifestId, amountStroops, buyer }) {
   const { hash } = await signAndSend(txBuilder, buyer);
   
   // Fetch settlement to return
-  const sTx = await client.get_settlement({ manifest_id: BigInt(manifestId) });
+  const sTx = await readClient.get_settlement({ manifest_id: BigInt(manifestId) });
   if (sTx.result.isOk()) {
     const s = sTx.result.unwrap();
     return {
@@ -175,6 +189,8 @@ export async function fundAndDistribute({ manifestId, amountStroops, buyer }) {
 }
 
 export async function cancelManifest(manifestId, creator) {
+  // Create a client with the caller's publicKey so the SDK can build the transaction correctly
+  const client = getClient(creator);
   const txBuilder = await client.cancel_manifest({
     creator,
     manifest_id: BigInt(manifestId)
@@ -202,7 +218,7 @@ export async function submitFeedback({ name, role, rating, comment }) {
 }
 
 export async function getStats() {
-  const countTx = await client.manifest_count();
+  const countTx = await readClient.manifest_count();
   const count = Number(countTx.result);
   
   return {
