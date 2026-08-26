@@ -15,8 +15,8 @@ SupplyFlow replaces manual, centrally-controlled revenue splitting with a Soroba
 - 🌐 **Live Platform**: [https://supplyflow-delta.vercel.app/](https://supplyflow-delta.vercel.app/)
 - 🔗 **Example Transaction Hash**: [`a4349505946106d8c314ae91f847ede4ed09e051dda93667f7d3f2e3d19b6e37`](https://stellar.expert/explorer/testnet/tx/a4349505946106d8c314ae91f847ede4ed09e051dda93667f7d3f2e3d19b6e37)
 - 📜 **SupplyFlow Contract ID**: [`CBBLDCSB24PLZNXCKFBCUA2LZ7TO22FKVL5H6ZPUMEQRTYO4NYWYEUUA`](https://stellar.expert/explorer/testnet/contract/CBBLDCSB24PLZNXCKFBCUA2LZ7TO22FKVL5H6ZPUMEQRTYO4NYWYEUUA)
-- 👥 **User Onboarding Data (50+ Users)**: [View Exported Excel/CSV Sheet Here](#) *(Add link here)*
-- 📝 **Google Form Link**: [Feedback Form](#) *(Add link here)*
+- 👥 **User Onboarding Data (20+ Users)**: [View Exported User Feedback Sheet](https://docs.google.com/spreadsheets/d/1GzDIZksib_1blmx4Ep5KhBPvhFZgRsPQp42uoFjwxQ4/edit?usp=sharing)
+- 📝 **Google Form Link**: [Provide Feedback](https://docs.google.com/forms/d/e/1FAIpQLSeVML80KEEhJs90cCUlE8EsOGSP2VlHbYEvnxmoTle8UBlgdQ/viewform)
 
 ## 🌟 Key Features
 
@@ -47,17 +47,19 @@ This project successfully fulfills all the requirements for the Level 4 Green Be
 
 ---
 
-## 📸 Screenshots & Evidence
+## 📸 Photo Gallery (Screenshots & Evidence)
+
+Here is a visual walkthrough of the SupplyFlow interface and capabilities, covering the main platform features and our monitoring setups.
 
 | SupplyFlow Dashboard (Desktop) | Mobile Responsive Design |
 |:---:|:---:|
-| <img src="images/dashboard.png" width="400" alt="Dashboard UI"> | <img src="images/mobile_responsive.png" width="400" alt="Mobile View"> |
+| <img src="screenshots/homepage.png" width="400" alt="Dashboard UI"> | <img src="screenshots/mobile_responsive_ui.png" width="400" alt="Mobile View"> |
+| **Clean, visual dashboard showing active manifests and status** | **Fully responsive UI tested across mobile viewports** |
 
-| Split Preview Diagram | Monitoring & Analytics Setup |
+| Analytics & Monitoring Setup | Settlement Receipt Preview |
 |:---:|:---:|
-| <img src="images/split_preview.png" width="400" alt="Split Preview"> | <img src="images/analytics.png" width="400" alt="Analytics"> |
-
-*(Note: Replace image paths with your actual screenshots)*
+| <img src="screenshots/analytics.png" width="400" alt="Analytics"> | <img src="screenshots/settlement_receipt.png" width="400" alt="Settlement Receipt"> |
+| **On-chain derived metrics and real-time event monitoring** | **Transparent receipt breakdown of atomic payouts** |
 
 ## 👥 User Onboarding
 
@@ -66,18 +68,21 @@ We successfully onboarded **real users** with Stellar Testnet wallets and verifi
 ### 1. Users Onboarded
 | User ID | Name | Email | Wallet Address | Feedback Summary |
 |---|---|---|---|---|
-| 1 | Farmer Collective | farmer@example.com | `GAW2TZETZNJ6JRMJQNEXRCZ54Z2MRW7YKHGUB2FVYAJ7OEMMT42BLNPW` | Great transparency, helps us see exactly what we earn. |
-| 2 | Cooperative | coop@example.com | `GAIU57CCHT7EBNG2ISWV3F3CLRIUQ32GVIZQFPV75DY6TMTFXTYZDO6D` | The automated splitting removes our manual accounting overhead completely. |
-*(Add more rows from your pilot data)*
+| 5 | Shan Arav | shantanav7@gmail.com | `GCXGV3BQEVUMVELY47PK66SD4XWHMVB66JMRHQTSL53ENVJQ23IHXBQ7` | The platform is fast and reliable but a dark mode would be much easier on the eyes for late-night accounting. |
+| 6 | Simmi Tiwari | simmitiwari770@gmail.com | `GBRIA3LHI2KJ54BLLKBJB67LMVUHMCZ6P2NAA7CYEU76UGTEMBFOIPU7` | Can you add a CSV export feature on the analytics page? It would help massively with our monthly tax records. |
+| 7 | Eshan Mehra | enzobaby0099@gmail.com | `GC4YMJ6YR7CGT2U7JPN2ZOUXE2WLNZ5L3MZTRET2QWZXH4RVSQTZWDK4` | No more arguing over payment delays! The atomic settlement gives me complete peace of mind. |
+| 8 | Sohbham Patil | sohamrpatil4220@gmail.com | `GBCOIUGZAJYXHRJ7B3D3QK75TMD5LCUGMMD4RRFQF5BT67LWF3HVFO4R` | It would be helpful to allow adding an optional memo or invoice number field when creating a manifest. |
+| 9 | Jayant Vaibhav | jayantvaibhavspj@gmail.com | `GBA35UMZZIGBAP7UWGIFDR3NN4SBB2QWO3HUQEHCG3TD7NYHUDVFXHOL` | It would be great to have an 'Approve/Reject' button for stakeholders if they disagree with the split before it gets funded. |
 
 ### 2. Feedback Implementation & Evolution
-Based on the extensive feedback collected from our users, we have actively evolved the platform. 
+Based on the extensive feedback collected from our users, we have actively evolved the platform in real-time. 
 
-| User ID | Name | Wallet Address | Feedback Summary | Improvement Made | Git Commit ID |
-|---|---|---|---|---|---|
-| 1 | Farmer Collective | `GAW2TZETZNJ6JRMJQNEXRCZ54Z2MRW7YKHGUB2FVYAJ7OEMMT42BLNPW` | Can we get a visual representation of the split? | Added Live Split Preview Diagram | [`commit-hash`](#) |
-| 2 | Cooperative | `GAIU57CCHT7EBNG2ISWV3F3CLRIUQ32GVIZQFPV75DY6TMTFXTYZDO6D` | Need to see total funds distributed across all manifests | Built cumulative analytics dashboard | [`commit-hash`](#) |
-*(Add more rows based on your project's commits)*
+| User ID | Name | Feedback Summary | Improvement Made | Git Commit ID |
+|---|---|---|---|---|
+| 20 | Anjali Sharma | I suggest adding a 'Print Receipt' button on the completed manifest page for our physical bookkeeping files. | Added "Print Receipt" button to Settlement view | [`a888436`](https://github.com/lilawti-lila620/supplyflow/commit/a888436) |
+| 6 | Simmi Tiwari | Can you add a CSV export feature on the analytics page? It would help massively with our monthly tax records. | Built CSV Export downloader directly into Analytics | [`231b58c`](https://github.com/lilawti-lila620/supplyflow/commit/231b58c) |
+| 16 | Kavita Singh | Could you add a filter on the dashboard to sort manifests by the total XLM value? | Added robust frontend XLM value sorting filters | *(Pending Commit)* |
+| 3 | Sara Anaya | Please add an option to view amounts in local fiat currency alongside the XLM values. | Integrated estimated USD Fiat displays via mock rates | *(Pending Commit)* |
 
 ### 3. Next Phase Evolution & Future Improvements
 Based on user feedback, we plan to evolve the project in the next phase by:
@@ -86,11 +91,14 @@ Based on user feedback, we plan to evolve the project in the next phase by:
 3. **Dispute-Flagging:** Allowing off-chain evidence hashes to be pinned on-chain for auditing.
 4. **Mobile App Wrapper:** For low-connectivity regions where web access is inconsistent.
 
-### 4. On-Chain Verification
+### 4. On-Chain Verification (Unique User Wallets)
 | User ID | Name | Wallet Address | Transaction Link |
 |---|---|---|---|
-| 1 | Test Buyer | `GA7LHRV44NT4W3M2TY4Z43XZ6W44Y2N42F3Z5S4W3T2J2Q7L3T5JMJUZ` | [a4349505946106d8c314ae91f847ede4ed09e051dda93667f7d3f2e3d19b6e37](https://stellar.expert/explorer/testnet/tx/a4349505946106d8c314ae91f847ede4ed09e051dda93667f7d3f2e3d19b6e37) |
-*(Add more rows from your transaction history)*
+| 5 | Shan Arav | `GCXGV3BQEVUMVELY47PK66SD4XWHMVB66JMRHQTSL53ENVJQ23IHXBQ7` | [fdb8da9c2e4d2662fe8b5ac50305e3af946294666b1c5c789c73545ac3d62838](https://stellar.expert/explorer/testnet/tx/fdb8da9c2e4d2662fe8b5ac50305e3af946294666b1c5c789c73545ac3d62838) |
+| 6 | Simmi Tiwari | `GBRIA3LHI2KJ54BLLKBJB67LMVUHMCZ6P2NAA7CYEU76UGTEMBFOIPU7` | [60763ff0af789da7bb7171ee6f21c753fa203842632728cf418f0b7faf6365d7](https://stellar.expert/explorer/testnet/tx/60763ff0af789da7bb7171ee6f21c753fa203842632728cf418f0b7faf6365d7) |
+| 7 | Eshan Mehra | `GC4YMJ6YR7CGT2U7JPN2ZOUXE2WLNZ5L3MZTRET2QWZXH4RVSQTZWDK4` | [d5d013c4ea4edf4e3bd84ff640ca5d72438eaf17aeed44ae8ddbc5bef1c54b3c](https://stellar.expert/explorer/testnet/tx/d5d013c4ea4edf4e3bd84ff640ca5d72438eaf17aeed44ae8ddbc5bef1c54b3c) |
+| 8 | Sohbham Patil | `GBCOIUGZAJYXHRJ7B3D3QK75TMD5LCUGMMD4RRFQF5BT67LWF3HVFO4R` | [25c290debe83dedd260e6764beaa7c92186246de3119110ed39a4f26c60af2e8](https://stellar.expert/explorer/testnet/tx/25c290debe83dedd260e6764beaa7c92186246de3119110ed39a4f26c60af2e8) |
+| 9 | Jayant Vaibhav | `GBA35UMZZIGBAP7UWGIFDR3NN4SBB2QWO3HUQEHCG3TD7NYHUDVFXHOL` | [47cca36bf91c69b0e7241e4a7847067de1580c4d830cf43f187653342b1cfe98](https://stellar.expert/explorer/testnet/tx/47cca36bf91c69b0e7241e4a7847067de1580c4d830cf43f187653342b1cfe98) |
 
 ---
 
