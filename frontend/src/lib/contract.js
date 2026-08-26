@@ -24,14 +24,15 @@ const readClient = new Client({
 });
 
 async function signAndSend(txBuilder, publicKey) {
-  const tx = await txBuilder.signAndSend({
+  // Step 1: Sign the transaction with Freighter
+  await txBuilder.sign({
     signTransaction: async (txXdr) => {
       const response = await freighter.signTransaction(txXdr, {
         network: 'TESTNET',
         networkPassphrase: NETWORK_PASSPHRASE,
       });
       // Freighter v6 returns { signedTxXdr, signerAddress }
-      // Older versions return the signed XDR string directly
+      // older versions return the XDR string directly
       if (response && typeof response === 'object' && response.signedTxXdr) {
         return response.signedTxXdr;
       }
@@ -40,17 +41,21 @@ async function signAndSend(txBuilder, publicKey) {
     publicKey,
   });
 
-  // SentTransaction has .hash and .result
-  const hash = tx?.hash || tx?.sendTransactionResponse?.hash;
-  const result = tx?.result;
+  // Step 2: Submit to the network
+  const sent = await txBuilder.send();
+
+  const hash = sent?.hash;
+  const result = sent?.result;
 
   if (result && typeof result === 'object' && 'isErr' in result && result.isErr()) {
     const err = result.unwrapErr();
-    const message = Errors[err.message] ? Errors[err.message].message : err.message;
-    throw new Error(`Contract error: ${message}`);
+    const code = err?.code ?? err?.message ?? String(err);
+    const message = Errors[code]?.message ?? `Contract error ${code}`;
+    throw new Error(message);
   }
-  
-  const unwrapped = result && typeof result === 'object' && 'unwrap' in result ? result.unwrap() : result;
+
+  const unwrapped =
+    result && typeof result === 'object' && 'unwrap' in result ? result.unwrap() : result;
   return { result: unwrapped, hash };
 }
 
