@@ -13,8 +13,8 @@ SupplyFlow replaces manual, centrally-controlled revenue splitting with a Soroba
 
 ### 📌 Essential Links
 - 🌐 **Live Platform**: [https://supplyflow-delta.vercel.app/](https://supplyflow-delta.vercel.app/)
-- 🔗 **Example Transaction Hash**: [`a4349505946...`](https://stellar.expert/explorer/testnet/tx/a4349505946106d8c314ae91f847ede4ed09e051dda93667f7d3f2e3d19b6e37)
-- 📜 **SupplyFlow Contract ID**: [`CBBLDCSB24PL...`](https://stellar.expert/explorer/testnet/contract/CBBLDCSB24PLZNXCKFBCUA2LZ7TO22FKVL5H6ZPUMEQRTYO4NYWYEUUA)
+- 🔗 **Example Transaction Hash**: [`a4349505946106d8c314ae91f847ede4ed09e051dda93667f7d3f2e3d19b6e37`](https://stellar.expert/explorer/testnet/tx/a4349505946106d8c314ae91f847ede4ed09e051dda93667f7d3f2e3d19b6e37)
+- 📜 **SupplyFlow Contract ID**: [`CBBLDCSB24PLZNXCKFBCUA2LZ7TO22FKVL5H6ZPUMEQRTYO4NYWYEUUA`](https://stellar.expert/explorer/testnet/contract/CBBLDCSB24PLZNXCKFBCUA2LZ7TO22FKVL5H6ZPUMEQRTYO4NYWYEUUA)
 - 👥 **User Onboarding Data (50+ Users)**: [View Exported Excel/CSV Sheet Here](#) *(Add link here)*
 - 📝 **Google Form Link**: [Feedback Form](#) *(Add link here)*
 
@@ -75,8 +75,8 @@ Based on the extensive feedback collected from our users, we have actively evolv
 
 | User ID | Name | Wallet Address | Feedback Summary | Improvement Made | Git Commit ID |
 |---|---|---|---|---|---|
-| 1 | Farmer Collective | `GAW2TZETZNJ6...` | Can we get a visual representation of the split? | Added Live Split Preview Diagram | [`commit-hash`](#) |
-| 2 | Cooperative | `GAIU57CCHT7E...` | Need to see total funds distributed across all manifests | Built cumulative analytics dashboard | [`commit-hash`](#) |
+| 1 | Farmer Collective | `GAW2TZETZNJ6JRMJQNEXRCZ54Z2MRW7YKHGUB2FVYAJ7OEMMT42BLNPW` | Can we get a visual representation of the split? | Added Live Split Preview Diagram | [`commit-hash`](#) |
+| 2 | Cooperative | `GAIU57CCHT7EBNG2ISWV3F3CLRIUQ32GVIZQFPV75DY6TMTFXTYZDO6D` | Need to see total funds distributed across all manifests | Built cumulative analytics dashboard | [`commit-hash`](#) |
 *(Add more rows based on your project's commits)*
 
 ### 3. Next Phase Evolution & Future Improvements
@@ -89,7 +89,7 @@ Based on user feedback, we plan to evolve the project in the next phase by:
 ### 4. On-Chain Verification
 | User ID | Name | Wallet Address | Transaction Link |
 |---|---|---|---|
-| 1 | Test Buyer | `GA7LH...JMJUZ` | [a434950594...](https://stellar.expert/explorer/testnet/tx/a4349505946106d8c314ae91f847ede4ed09e051dda93667f7d3f2e3d19b6e37) |
+| 1 | Test Buyer | `GA7LHRV44NT4W3M2TY4Z43XZ6W44Y2N42F3Z5S4W3T2J2Q7L3T5JMJUZ` | [a4349505946106d8c314ae91f847ede4ed09e051dda93667f7d3f2e3d19b6e37](https://stellar.expert/explorer/testnet/tx/a4349505946106d8c314ae91f847ede4ed09e051dda93667f7d3f2e3d19b6e37) |
 *(Add more rows from your transaction history)*
 
 ---
