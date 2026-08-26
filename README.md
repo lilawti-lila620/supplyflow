@@ -5,7 +5,7 @@ SupplyFlow replaces manual, centrally-controlled revenue splitting with a Soroba
 <div align="center">
   
   [![Live Platform](https://img.shields.io/badge/🔴_Live_Platform-supplyflow--delta.vercel.app-1E40AF?style=for-the-badge)](https://supplyflow-delta.vercel.app/)
-  [![Demo Video](https://img.shields.io/badge/▶️_Demo_Video-Watch_Now-FF0000?style=for-the-badge)](#)
+  [![Demo Video](https://img.shields.io/badge/▶️_Demo_Video-Watch_Now-FF0000?style=for-the-badge)](https://drive.google.com/file/d/153--YasyZR3d6Pne7nGHsTgRj9CugFJf/view?usp=sharing)
   
 </div>
 
@@ -41,7 +41,7 @@ This project successfully fulfills all the requirements for the Level 4 Green Be
   - Product UI (See below)
   - Mobile responsive design (See below)
   - Analytics or monitoring setup (See below)
-- [x] **Demo video link:** *(Add link here)*
+- [x] **Demo video link:** [Watch Demo on Google Drive](https://drive.google.com/file/d/153--YasyZR3d6Pne7nGHsTgRj9CugFJf/view?usp=sharing)
 - [x] **Proof of 10+ user wallet interactions:** Documented with tx hashes in the [On-Chain Verification](#4-on-chain-verification) section.
 - [x] **Basic user feedback summary:** Documented in the [User Onboarding](#user-onboarding) section.
 
