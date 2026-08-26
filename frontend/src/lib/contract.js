@@ -24,21 +24,25 @@ const readClient = new Client({
 });
 
 async function signAndSend(txBuilder, publicKey) {
-  const { built } = txBuilder;
-  // If the transaction builder doesn't automatically sign with Freighter, we do it manually.
-  // The signAndSend method on the builder takes an options object with signTransaction.
   const tx = await txBuilder.signAndSend({
     signTransaction: async (txXdr) => {
-      const signed = await freighter.signTransaction(txXdr, {
+      const response = await freighter.signTransaction(txXdr, {
         network: 'TESTNET',
         networkPassphrase: NETWORK_PASSPHRASE,
       });
-      return signed;
+      // Freighter v6 returns { signedTxXdr, signerAddress }
+      // Older versions return the signed XDR string directly
+      if (response && typeof response === 'object' && response.signedTxXdr) {
+        return response.signedTxXdr;
+      }
+      return response;
     },
     publicKey,
   });
 
-  const { result, hash } = tx;
+  // SentTransaction has .hash and .result
+  const hash = tx?.hash || tx?.sendTransactionResponse?.hash;
+  const result = tx?.result;
 
   if (result && typeof result === 'object' && 'isErr' in result && result.isErr()) {
     const err = result.unwrapErr();
