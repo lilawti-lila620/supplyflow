@@ -59,9 +59,7 @@ impl PaymentDistributionContract {
                 }
             }
             seen.push_back(s.address.clone());
-            sum = sum
-                .checked_add(s.share_bps)
-                .ok_or(Error::InvalidShare)?;
+            sum = sum.checked_add(s.share_bps).ok_or(Error::InvalidShare)?;
         }
         if sum != BPS_DENOMINATOR {
             return Err(Error::SharesMustSumTo10000);
@@ -267,7 +265,11 @@ impl PaymentDistributionContract {
 
     fn index_participant(env: &Env, participant: &Address, manifest_id: u64) {
         let key = DataKey::ParticipantManifests(participant.clone());
-        let mut list: Vec<u64> = env.storage().persistent().get(&key).unwrap_or(Vec::new(env));
+        let mut list: Vec<u64> = env
+            .storage()
+            .persistent()
+            .get(&key)
+            .unwrap_or(Vec::new(env));
         // Avoid duplicate index entries if buyer == a stakeholder somehow.
         if !list.iter().any(|x| x == manifest_id) {
             list.push_back(manifest_id);
