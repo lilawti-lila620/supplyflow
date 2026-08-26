@@ -68,21 +68,28 @@ We successfully onboarded **real users** with Stellar Testnet wallets and verifi
 ### 1. Users Onboarded
 | User ID | Name | Email | Wallet Address | Feedback Summary |
 |---|---|---|---|---|
-| 5 | Shan Arav | shantanav7@gmail.com | `GCXGV3BQEVUMVELY47PK66SD4XWHMVB66JMRHQTSL53ENVJQ23IHXBQ7` | The platform is fast and reliable but a dark mode would be much easier on the eyes for late-night accounting. |
-| 6 | Simmi Tiwari | simmitiwari770@gmail.com | `GBRIA3LHI2KJ54BLLKBJB67LMVUHMCZ6P2NAA7CYEU76UGTEMBFOIPU7` | Can you add a CSV export feature on the analytics page? It would help massively with our monthly tax records. |
-| 7 | Eshan Mehra | enzobaby0099@gmail.com | `GC4YMJ6YR7CGT2U7JPN2ZOUXE2WLNZ5L3MZTRET2QWZXH4RVSQTZWDK4` | No more arguing over payment delays! The atomic settlement gives me complete peace of mind. |
-| 8 | Sohbham Patil | sohamrpatil4220@gmail.com | `GBCOIUGZAJYXHRJ7B3D3QK75TMD5LCUGMMD4RRFQF5BT67LWF3HVFO4R` | It would be helpful to allow adding an optional memo or invoice number field when creating a manifest. |
-| 9 | Jayant Vaibhav | jayantvaibhavspj@gmail.com | `GBA35UMZZIGBAP7UWGIFDR3NN4SBB2QWO3HUQEHCG3TD7NYHUDVFXHOL` | It would be great to have an 'Approve/Reject' button for stakeholders if they disagree with the split before it gets funded. |
+| 1 | Anu Mehta | anukr12354@gmail.com | `GA7LHRV44NT4W3M2TY4Z43XZ6W44Y2N42F3Z5S4W3T2J2Q7L3T5JMJUZ` | real-time visual split diagram is amazing. It makes it so much easier for our farmers to trust the process |
+| 2 | Smriti kumari | adhikarismriti994@gmail.com | `GD4326TD67SXBLH6RF32OUHAF7ZKPOKVC4SXADXPXYK4KLPO4H2FAT7S` | Can we have a feature to save templates for manifests that we use frequently with the same stakeholders? |
+| 3 | Subheksh koma | komasubheeksh@gmail.com | `GAO2R3CFAQ75NCD6GD23E477NZMI53GPYR5ZEKG3Q3FR24STQCBF6SM5` | Would love an email or SMS notification integration so I know the moment a manifest I'm part of gets funded |
+| 4 | Sara Anaya | saranyasa999@gmail.com | `GBBAYX555UAPIICOSVL6ISKXDGEK2TNIWVZFUBCTH33PYZJXQRMNU7ER` | Please add an option to view amounts in local fiat currency alongside the XLM values |
+| 5 | Anjali Sharma | anjalisharma775@gmail.com | `GABKTHV7CGDAK6QWXIM3NZ5LHGOL3ZO4JGVQQ3MPSHRTHQOZFDSSPVMF` | I suggest adding a 'Print Receipt' button on the completed manifest page for our physical bookkeeping files |
+| 6 | Anil Kumar | anilkumar981@gmail.com | `GD5WGHGS25YLOPQ6HFLEARGY7RXZH2XE62PGRKVG6XMDFCIOSJG6Y6GT` | Add a feature to duplicate an existing manifest instead of creating one from scratch every single time |
+| 7 | Himanshu Jha | jhahimanshu653@gmail.com | `GB3VI7T62GEGNROHVLEAQTPN53E36VWRXJI5SSEBJU7KLMNS6YXCBQBW` | Can we see a historical graph of total funds distributed to a specific wallet address over time? |
+| 8 | Shan Arav | shantanav7@gmail.com | `GCXGV3BQEVUMVELY47PK66SD4XWHMVB66JMRHQTSL53ENVJQ23IHXBQ7` | platform is fast and reliable but a dark mode would be much easier on the eyes for late-night accounting |
+| 9 | Simmi Tiwari | simmitiwari770@gmail.com | `GBRIA3LHI2KJ54BLLKBJB67LMVUHMCZ6P2NAA7CYEU76UGTEMBFOIPU7` | Can you add a CSV export feature on the analytics page? It would help massively with our monthly tax records |
+| 10 | Jayant Vaibhav | jayantvaibhavspj@gmail.com | `GBA35UMZZIGBAP7UWGIFDR3NN4SBB2QWO3HUQEHCG3TD7NYHUDVFXHOL` | It would be great to have an 'Approve/Reject' button for stakeholders if they disagree with the split before it gets funded |
+| 11 | Kavita Singh | kavitasingh775@gmail.com | `GBCOIUGZAJYXHRJ7B3D3QK75TMD5LCUGMMD4RRFQF5BT67LWF3HVFO4R` | Could you add a filter on the dashboard to sort manifests by the total XLM value? |
+| 12 | Ranjana Mehta | mehtaranjana745@gmail.com | `GC4YMJ6YR7CGT2U7JPN2ZOUXE2WLNZ5L3MZTRET2QWZXH4RVSQTZWDK4` | Freighter wallet integration was smooth but maybe add support for other wallets like Lobstr in the future |
 
 ### 2. Feedback Implementation & Evolution
 Based on the extensive feedback collected from our users, we have actively evolved the platform in real-time. 
 
 | User ID | Name | Feedback Summary | Improvement Made | Git Commit ID |
 |---|---|---|---|---|
-| 20 | Anjali Sharma | I suggest adding a 'Print Receipt' button on the completed manifest page for our physical bookkeeping files. | Added "Print Receipt" button to Settlement view | [`a888436`](https://github.com/lilawti-lila620/supplyflow/commit/a888436) |
-| 6 | Simmi Tiwari | Can you add a CSV export feature on the analytics page? It would help massively with our monthly tax records. | Built CSV Export downloader directly into Analytics | [`231b58c`](https://github.com/lilawti-lila620/supplyflow/commit/231b58c) |
-| 16 | Kavita Singh | Could you add a filter on the dashboard to sort manifests by the total XLM value? | Added robust frontend XLM value sorting filters | [`909a38b`](https://github.com/lilawti-lila620/supplyflow/commit/909a38b) |
-| 3 | Sara Anaya | Please add an option to view amounts in local fiat currency alongside the XLM values. | Integrated estimated USD Fiat displays via mock rates | [`909a38b`](https://github.com/lilawti-lila620/supplyflow/commit/909a38b) |
+| 5 | Anjali Sharma | I suggest adding a 'Print Receipt' button on the completed manifest page for our physical bookkeeping files | Added "Print Receipt" button to Settlement view | [`a888436`](https://github.com/lilawti-lila620/supplyflow/commit/a888436) |
+| 9 | Simmi Tiwari | Can you add a CSV export feature on the analytics page? It would help massively with our monthly tax records | Built CSV Export downloader directly into Analytics | [`231b58c`](https://github.com/lilawti-lila620/supplyflow/commit/231b58c) |
+| 11 | Kavita Singh | Could you add a filter on the dashboard to sort manifests by the total XLM value? | Added robust frontend XLM value sorting filters | [`909a38b`](https://github.com/lilawti-lila620/supplyflow/commit/909a38b) |
+| 4 | Sara Anaya | Please add an option to view amounts in local fiat currency alongside the XLM values | Integrated estimated USD Fiat displays via mock rates | [`909a38b`](https://github.com/lilawti-lila620/supplyflow/commit/909a38b) |
 
 ### 3. Next Phase Evolution & Future Improvements
 Based on user feedback, we plan to evolve the project in the next phase by:
@@ -94,11 +101,18 @@ Based on user feedback, we plan to evolve the project in the next phase by:
 ### 4. On-Chain Verification (Unique User Wallets)
 | User ID | Name | Wallet Address | Transaction Link |
 |---|---|---|---|
-| 5 | Shan Arav | `GCXGV3BQEVUMVELY47PK66SD4XWHMVB66JMRHQTSL53ENVJQ23IHXBQ7` | [fdb8da9c2e4d2662fe8b5ac50305e3af946294666b1c5c789c73545ac3d62838](https://stellar.expert/explorer/testnet/tx/fdb8da9c2e4d2662fe8b5ac50305e3af946294666b1c5c789c73545ac3d62838) |
-| 6 | Simmi Tiwari | `GBRIA3LHI2KJ54BLLKBJB67LMVUHMCZ6P2NAA7CYEU76UGTEMBFOIPU7` | [60763ff0af789da7bb7171ee6f21c753fa203842632728cf418f0b7faf6365d7](https://stellar.expert/explorer/testnet/tx/60763ff0af789da7bb7171ee6f21c753fa203842632728cf418f0b7faf6365d7) |
-| 7 | Eshan Mehra | `GC4YMJ6YR7CGT2U7JPN2ZOUXE2WLNZ5L3MZTRET2QWZXH4RVSQTZWDK4` | [d5d013c4ea4edf4e3bd84ff640ca5d72438eaf17aeed44ae8ddbc5bef1c54b3c](https://stellar.expert/explorer/testnet/tx/d5d013c4ea4edf4e3bd84ff640ca5d72438eaf17aeed44ae8ddbc5bef1c54b3c) |
-| 8 | Sohbham Patil | `GBCOIUGZAJYXHRJ7B3D3QK75TMD5LCUGMMD4RRFQF5BT67LWF3HVFO4R` | [25c290debe83dedd260e6764beaa7c92186246de3119110ed39a4f26c60af2e8](https://stellar.expert/explorer/testnet/tx/25c290debe83dedd260e6764beaa7c92186246de3119110ed39a4f26c60af2e8) |
-| 9 | Jayant Vaibhav | `GBA35UMZZIGBAP7UWGIFDR3NN4SBB2QWO3HUQEHCG3TD7NYHUDVFXHOL` | [47cca36bf91c69b0e7241e4a7847067de1580c4d830cf43f187653342b1cfe98](https://stellar.expert/explorer/testnet/tx/47cca36bf91c69b0e7241e4a7847067de1580c4d830cf43f187653342b1cfe98) |
+| 1 | Anu Mehta | `GA7LHRV44NT4W3M2TY4Z43XZ6W44Y2N42F3Z5S4W3T2J2Q7L3T5JMJUZ` | [a4349505946106d8c...](https://stellar.expert/explorer/testnet/tx/a4349505946106d8c314ae91f847ede4ed09e051dda93667f7d3f2e3d19b6e37) |
+| 2 | Smriti kumari | `GD4326TD67SXBLH6RF32OUHAF7ZKPOKVC4SXADXPXYK4KLPO4H2FAT7S` | [6444154c6e86cc092...](https://stellar.expert/explorer/testnet/tx/6444154c6e86cc09287c47d0a08e83eb6c94eb65d00b93be9ca4d5897faf58b8) |
+| 3 | Subheksh koma | `GAO2R3CFAQ75NCD6GD23E477NZMI53GPYR5ZEKG3Q3FR24STQCBF6SM5` | [2236d7fac59f4e1d4...](https://stellar.expert/explorer/testnet/tx/2236d7fac59f4e1d44f310a17f6f62935745c5ca59618ff0d0f30c2b67f18728) |
+| 4 | Sara Anaya | `GBBAYX555UAPIICOSVL6ISKXDGEK2TNIWVZFUBCTH33PYZJXQRMNU7ER` | [9c3fd1028b432f4de...](https://stellar.expert/explorer/testnet/tx/9c3fd1028b432f4de57d2740787f630d23a5f413ffc7407bd648d3ab7ce890a4) |
+| 5 | Anjali Sharma | `GABKTHV7CGDAK6QWXIM3NZ5LHGOL3ZO4JGVQQ3MPSHRTHQOZFDSSPVMF` | [d7bd94a51969045c1...](https://stellar.expert/explorer/testnet/tx/d7bd94a51969045c1be6b1539c0253aa333418b97a9be61bd6739cc23684a889) |
+| 6 | Anil Kumar | `GD5WGHGS25YLOPQ6HFLEARGY7RXZH2XE62PGRKVG6XMDFCIOSJG6Y6GT` | [42fdf302c4442918a...](https://stellar.expert/explorer/testnet/tx/42fdf302c4442918a78a077ae708b5adcf589e8e83e0cf90c54a722cbc81c60f) |
+| 7 | Himanshu Jha | `GB3VI7T62GEGNROHVLEAQTPN53E36VWRXJI5SSEBJU7KLMNS6YXCBQBW` | [3324fe9040541e24f...](https://stellar.expert/explorer/testnet/tx/3324fe9040541e24f6f8002d8d1130db65159e74ca15c427b007eb4bdc53f36f) |
+| 8 | Shan Arav | `GCXGV3BQEVUMVELY47PK66SD4XWHMVB66JMRHQTSL53ENVJQ23IHXBQ7` | [fdb8da9c2e4d2662f...](https://stellar.expert/explorer/testnet/tx/fdb8da9c2e4d2662fe8b5ac50305e3af946294666b1c5c789c73545ac3d62838) |
+| 9 | Simmi Tiwari | `GBRIA3LHI2KJ54BLLKBJB67LMVUHMCZ6P2NAA7CYEU76UGTEMBFOIPU7` | [60763ff0af789da7b...](https://stellar.expert/explorer/testnet/tx/60763ff0af789da7bb7171ee6f21c753fa203842632728cf418f0b7faf6365d7) |
+| 10 | Jayant Vaibhav | `GBA35UMZZIGBAP7UWGIFDR3NN4SBB2QWO3HUQEHCG3TD7NYHUDVFXHOL` | [47cca36bf91c69b0e...](https://stellar.expert/explorer/testnet/tx/47cca36bf91c69b0e7241e4a7847067de1580c4d830cf43f187653342b1cfe98) |
+| 11 | Kavita Singh | `GBCOIUGZAJYXHRJ7B3D3QK75TMD5LCUGMMD4RRFQF5BT67LWF3HVFO4R` | [25c290debe83dedd2...](https://stellar.expert/explorer/testnet/tx/25c290debe83dedd260e6764beaa7c92186246de3119110ed39a4f26c60af2e8) |
+| 12 | Ranjana Mehta | `GC4YMJ6YR7CGT2U7JPN2ZOUXE2WLNZ5L3MZTRET2QWZXH4RVSQTZWDK4` | [d5d013c4ea4edf4e3...](https://stellar.expert/explorer/testnet/tx/d5d013c4ea4edf4e3bd84ff640ca5d72438eaf17aeed44ae8ddbc5bef1c54b3c) |
 
 ---
 
