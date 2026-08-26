@@ -7,7 +7,12 @@ import {
   nativeToScVal,
   scValToNative,
 } from '@stellar/stellar-sdk';
-import { SorobanRpc } from '@stellar/stellar-sdk';
+import * as SorobanRpc from '@stellar/stellar-sdk/rpc';
+import {
+  isSimulationError,
+  assembleTransaction,
+  Server as SorobanServer,
+} from '@stellar/stellar-sdk/rpc';
 import * as freighter from '@stellar/freighter-api';
 import { Client, networks } from './supplyflow-client/src/index.js';
 import { SEED_FEEDBACK } from './mockData';
@@ -32,7 +37,7 @@ const readClient = new Client({
 // ------------------------------------------------------------------
 // Low-level helpers
 // ------------------------------------------------------------------
-const server = new SorobanRpc.Server(RPC_URL, { allowHttp: false });
+const server = new SorobanServer(RPC_URL, { allowHttp: false });
 
 /** Encode a Stakeholder JS object into an ScVal map for Soroban. */
 function stakeholderToScVal(s) {
@@ -72,12 +77,12 @@ async function invokeContract(publicKey, method, args) {
 
   // 3. Simulate to get soroban data + auth entries
   const simResult = await server.simulateTransaction(tx);
-  if (SorobanRpc.isSimulationError(simResult)) {
+  if (isSimulationError(simResult)) {
     throw new Error(`Simulation failed: ${simResult.error}`);
   }
 
   // 4. Apply simulation result (injects soroban data, fees, auth)
-  tx = SorobanRpc.assembleTransaction(tx, simResult).build();
+  tx = assembleTransaction(tx, simResult).build();
 
   // 5. Sign with Freighter
   const freighterResponse = await freighter.signTransaction(tx.toXDR(), {
@@ -103,11 +108,11 @@ async function invokeContract(publicKey, method, args) {
   let getResult = null;
   for (let i = 0; i < 30; i++) {
     getResult = await server.getTransaction(sendResult.hash);
-    if (getResult.status !== SorobanRpc.GetTransactionStatus.NOT_FOUND) break;
+    if (getResult.status !== 'NOT_FOUND') break;
     await new Promise((r) => setTimeout(r, 2000));
   }
 
-  if (!getResult || getResult.status === SorobanRpc.GetTransactionStatus.FAILED) {
+  if (!getResult || getResult.status === 'FAILED') {
     throw new Error('Transaction failed on-chain');
   }
 
