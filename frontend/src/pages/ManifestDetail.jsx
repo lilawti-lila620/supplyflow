@@ -199,9 +199,14 @@ export default function ManifestDetail() {
 
           {settled && (
             <div className="rounded-xl border border-teal/30 bg-teal/5 p-5">
-              <h3 className="flex items-center gap-2 font-display font-semibold text-teal">
-                <ShieldCheck size={17} /> Settlement receipt
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="flex items-center gap-2 font-display font-semibold text-teal">
+                  <ShieldCheck size={17} /> Settlement receipt
+                </h3>
+                <button onClick={() => window.print()} className="text-xs text-slate hover:text-mist border border-line rounded px-2 py-1">
+                  Print Receipt
+                </button>
+              </div>
               <div className="mt-3 flex items-center justify-between text-sm">
                 <span className="text-slate">Total distributed</span>
                 <span className="font-mono text-teal">{formatXLM(manifest.settlement.total_amount)} XLM</span>
