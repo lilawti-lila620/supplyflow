@@ -81,8 +81,8 @@ Based on the extensive feedback collected from our users, we have actively evolv
 |---|---|---|---|---|
 | 20 | Anjali Sharma | I suggest adding a 'Print Receipt' button on the completed manifest page for our physical bookkeeping files. | Added "Print Receipt" button to Settlement view | [`a888436`](https://github.com/lilawti-lila620/supplyflow/commit/a888436) |
 | 6 | Simmi Tiwari | Can you add a CSV export feature on the analytics page? It would help massively with our monthly tax records. | Built CSV Export downloader directly into Analytics | [`231b58c`](https://github.com/lilawti-lila620/supplyflow/commit/231b58c) |
-| 16 | Kavita Singh | Could you add a filter on the dashboard to sort manifests by the total XLM value? | Added robust frontend XLM value sorting filters | *(Pending Commit)* |
-| 3 | Sara Anaya | Please add an option to view amounts in local fiat currency alongside the XLM values. | Integrated estimated USD Fiat displays via mock rates | *(Pending Commit)* |
+| 16 | Kavita Singh | Could you add a filter on the dashboard to sort manifests by the total XLM value? | Added robust frontend XLM value sorting filters | [`909a38b`](https://github.com/lilawti-lila620/supplyflow/commit/909a38b) |
+| 3 | Sara Anaya | Please add an option to view amounts in local fiat currency alongside the XLM values. | Integrated estimated USD Fiat displays via mock rates | [`909a38b`](https://github.com/lilawti-lila620/supplyflow/commit/909a38b) |
 
 ### 3. Next Phase Evolution & Future Improvements
 Based on user feedback, we plan to evolve the project in the next phase by:
