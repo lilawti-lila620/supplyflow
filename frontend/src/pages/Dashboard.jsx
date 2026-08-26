@@ -12,6 +12,7 @@ export default function Dashboard() {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('All');
+  const [sortOption, setSortOption] = useState('Newest');
 
   async function load() {
     setError(null);
@@ -29,7 +30,17 @@ export default function Dashboard() {
     load();
   }, []);
 
-  const filtered = manifests?.filter((m) => filter === 'All' || m.status === filter);
+  let filtered = manifests?.filter((m) => filter === 'All' || m.status === filter);
+  if (filtered) {
+    filtered = [...filtered].sort((a, b) => {
+      if (sortOption === 'Newest') return b.created_at - a.created_at;
+      const valA = a.settlement ? Number(a.settlement.total_amount) : 0;
+      const valB = b.settlement ? Number(b.settlement.total_amount) : 0;
+      if (sortOption === 'Value: High to Low') return valB - valA;
+      if (sortOption === 'Value: Low to High') return valA - valB;
+      return 0;
+    });
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-5 md:px-8 py-10">
@@ -58,22 +69,39 @@ export default function Dashboard() {
       {stats && (
         <div className="mt-4 rounded-xl border border-line bg-ink-2 px-5 py-4 flex items-center justify-between">
           <span className="text-sm text-slate">Total distributed on-chain</span>
-          <span className="font-mono text-lg font-semibold text-teal">{formatXLM(stats.totalDistributed)} XLM</span>
+          <span className="font-mono text-lg font-semibold text-teal">
+            {formatXLM(stats.totalDistributed)} XLM 
+            <span className="ml-2 text-sm text-slate/70 font-normal">≈ ${(Number(stats.totalDistributed) / 10_000_000 * 0.15).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+          </span>
         </div>
       )}
 
-      <div className="mt-8 flex items-center gap-2">
-        {['All', 'Open', 'Settled', 'Cancelled'].map((f) => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={`rounded-full px-3.5 py-1.5 text-xs font-medium border transition-colors ${
-              filter === f ? 'border-amber/50 bg-amber/10 text-amber' : 'border-line text-slate hover:text-mist'
-            }`}
+      <div className="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          {['All', 'Open', 'Settled', 'Cancelled'].map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-medium border transition-colors ${
+                filter === f ? 'border-amber/50 bg-amber/10 text-amber' : 'border-line text-slate hover:text-mist'
+              }`}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 text-xs">
+          <span className="text-slate">Sort:</span>
+          <select 
+            value={sortOption} 
+            onChange={e => setSortOption(e.target.value)}
+            className="bg-ink-2 border border-line text-mist rounded-md px-2 py-1 outline-none focus:border-amber/50"
           >
-            {f}
-          </button>
-        ))}
+            <option>Newest</option>
+            <option>Value: High to Low</option>
+            <option>Value: Low to High</option>
+          </select>
+        </div>
       </div>
 
       <div className="mt-6">

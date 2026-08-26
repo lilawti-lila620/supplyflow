@@ -209,7 +209,10 @@ export default function ManifestDetail() {
               </div>
               <div className="mt-3 flex items-center justify-between text-sm">
                 <span className="text-slate">Total distributed</span>
-                <span className="font-mono text-teal">{formatXLM(manifest.settlement.total_amount)} XLM</span>
+                <span className="font-mono text-teal">
+                  {formatXLM(manifest.settlement.total_amount)} XLM
+                  <span className="ml-2 text-slate/70 font-normal text-[11px]">≈ ${(Number(manifest.settlement.total_amount) / 10_000_000 * 0.15).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                </span>
               </div>
               <div className="mt-1 flex items-center justify-between text-sm">
                 <span className="text-slate">Settled</span>
@@ -222,8 +225,9 @@ export default function ManifestDetail() {
                       <div className="text-mist">{p.role}</div>
                       <CopyableAddress value={p.address} />
                     </div>
-                    <span className="font-mono text-teal">
-                      {formatXLM(p.amount)} XLM · {formatBps(p.share_bps)}
+                    <span className="font-mono text-teal flex flex-col items-end">
+                      <span>{formatXLM(p.amount)} XLM · {formatBps(p.share_bps)}</span>
+                      <span className="text-[10px] text-slate/60 font-normal">≈ ${(Number(p.amount) / 10_000_000 * 0.15).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                     </span>
                   </div>
                 ))}
